@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Form</title>
+    <style>
+        /* Set a full-page gradient background */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background: linear-gradient(to right, #00c6ff, #0072ff);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Container for the form */
+        .box {
+            background: rgba(255, 255, 255, 0.9); /* Slight transparency */
+            padding: 40px 60px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+
+        /* Form Heading */
+        .form h2 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        /* Style input boxes */
+        .inputbox {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        /* Input field styles */
+        .inputbox input {
+            width: 100%;
+            padding: 12px 20px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            outline: none;
+            font-size: 16px;
+            background: #f4f4f4;
+            transition: all 0.3s ease;
+        }
+
+        .inputbox input:focus {
+            border-color: #0072ff;
+            background: #e6f0ff;
+        }
+
+        /* Label styling */
+        .inputbox span {
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            font-size: 14px;
+            color: #0072ff;
+            font-weight: 500;
+            background-color: #fff;
+            padding: 0 5px;
+            transform: translateY(-50%);
+        }
+
+        /* Submit button styling */
+        .sub {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            background: #0072ff;
+            color: white;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .sub:hover {
+            background: #005bb5;
+        }
+
+        /* Form spacing */
+        form {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <div class="form">
+            <h2>Login Form</h2>
+            <form>
+                <div class="inputbox">
+                    <input type="text" value="" id="username" required>
+                    <span>Username</span>
+                </div>
+                <div class="inputbox">
+                    <input type="email" value="" id="email" required>
+                    <span>E-mail</span>
+                </div>
+                <div class="inputbox">
+                    <input type="text" value="" id="phone" required>
+                    <span>Phone Number</span>
+                </div>
+                <input type="submit" value="Submit" class="sub" id="submit">
+            </form>
+        </div>
+    </div>
+
+  <script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyCuqrFmLTPcAXnfY2Evl7V6TYoB4JuP49M",
+    authDomain: "jdweq-8402c.firebaseapp.com",
+    projectId: "jdweq-8402c",
+    storageBucket: "jdweq-8402c.firebasestorage.app",
+    messagingSenderId: "669116433438",
+    appId: "1:669116433438:web:a49774c6deb4ad88aeda0f"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+
+        // Get ref to database services
+        const db = getDatabase(app);
+
+        // Handle form submission
+        document.getElementById("submit").addEventListener('click', function(e) {
+            e.preventDefault();
+
+            // Set data in Firebase Realtime Database
+            set(ref(db, 'user/' + document.getElementById("username").value), {
+                username: document.getElementById("username").value,
+                email: document.getElementById("email").value,
+                PhoneNumber: document.getElementById("phone").value
+            }).then(() => {
+                alert("Login Successful!");
+            }).catch((error) => {
+                console.error("Error writing to Firebase Database", error);
+                alert("Something went wrong!");
+            });
+        });
+    </script>
+</body>
+</html>
