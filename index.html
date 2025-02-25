@@ -148,7 +148,9 @@
             email: document.getElementById("email").value,
             phoneNumber: document.getElementById("phone").value
         }).then(() => {
+            // Redirect to dashboard.html after successful login
             alert("Login Successful!");
+            window.location.href = "dashboard.html";  // Redirect to dashboard page
         }).catch((error) => {
             console.error("Error writing to Firebase Database", error);
             alert("Something went wrong!");
