@@ -118,43 +118,42 @@
     </div>
 
   <script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
+    import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-database.js"; 
 
-  // Your web app's Firebase configuration
-  const firebaseConfig = {
-    apiKey: "AIzaSyCuqrFmLTPcAXnfY2Evl7V6TYoB4JuP49M",
-    authDomain: "jdweq-8402c.firebaseapp.com",
-    projectId: "jdweq-8402c",
-    storageBucket: "jdweq-8402c.firebasestorage.app",
-    messagingSenderId: "669116433438",
-    appId: "1:669116433438:web:a49774c6deb4ad88aeda0f"
-  };
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyCuqrFmLTPcAXnfY2Evl7V6TYoB4JuP49M",
+        authDomain: "jdweq-8402c.firebaseapp.com",
+        projectId: "jdweq-8402c",
+        storageBucket: "jdweq-8402c.firebasestorage.app",
+        messagingSenderId: "669116433438",
+        appId: "1:669116433438:web:a49774c6deb4ad88aeda0f"
+    };
 
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
 
-        // Get ref to database services
-        const db = getDatabase(app);
+    // Get a reference to the database service
+    const db = getDatabase(app);
 
-        // Handle form submission
-        document.getElementById("submit").addEventListener('click', function(e) {
-            e.preventDefault();
+    // Handle form submission
+    document.getElementById("submit").addEventListener('click', function(e) {
+        e.preventDefault();
 
-            // Set data in Firebase Realtime Database
-            set(ref(db, 'user/' + document.getElementById("username").value), {
-                username: document.getElementById("username").value,
-                email: document.getElementById("email").value,
-                PhoneNumber: document.getElementById("phone").value
-            }).then(() => {
-                alert("Login Successful!");
-            }).catch((error) => {
-                console.error("Error writing to Firebase Database", error);
-                alert("Something went wrong!");
-            });
+        // Set data in Firebase Realtime Database
+        set(ref(db, 'user/' + document.getElementById("username").value), {
+            username: document.getElementById("username").value,
+            email: document.getElementById("email").value,
+            phoneNumber: document.getElementById("phone").value
+        }).then(() => {
+            alert("Login Successful!");
+        }).catch((error) => {
+            console.error("Error writing to Firebase Database", error);
+            alert("Something went wrong!");
         });
-    </script>
+    });
+  </script>
 </body>
 </html>
