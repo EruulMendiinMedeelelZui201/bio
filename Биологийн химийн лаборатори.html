@@ -1,1 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Биологийн химийн лаборатори - Лавлах хуудас</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <style>
+    /* Basic Styles (same as before) */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Arial', sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      color: #333;
+      background: #f4f4f4;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    header {
+      background: #009688;
+      color: #fff;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 1.8rem;
+      flex-grow: 1;
+    }
 
+    /* Hamburger Menu */
+    .hamburger-menu {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      z-index: 1000;
+      position: absolute;
+      right: 20px;
+    }
+    .hamburger-menu div {
+      width: 30px;
+      height: 4px;
+      background-color: #fff;
+      margin: 5px;
+      border-radius: 5px;
+    }
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+    }
+    nav ul li {
+      margin: 0 20px;
+    }
+    nav ul li a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    /* Main Styles */
+    main {
+      padding: 40px 20px;
+      flex-grow: 1;
+      background-color: #fff;
+    }
+
+    /* Research Links Section */
+    #research-links ul {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+    }
+    #research-links ul li {
+      width: 200px;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+    #research-links ul li a {
+      color: #009688;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    footer {
+      background: #333;
+      color: #fff;
+      text-align: center;
+      padding: 1rem;
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      nav ul {
+        display: none;
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+      }
+      nav ul li {
+        margin: 10px 0;
+      }
+      .hamburger-menu {
+        display: flex;
+      }
+      nav ul.active {
+        display: flex;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Биологийн химийн лаборатори</h1>
+    
+    <!-- Hamburger Menu Icon -->
+    <div class="hamburger-menu" onclick="toggleMenu()">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+
+    <!-- Navigation Menu -->
+    <nav>
+      <ul>
+        <li><a href="index.html"><i class="fas fa-home"></i>Нүүр хуудас</a></li> <!-- Link to the main page -->
+        <li><a href="Эсийн биологийн лаборатори.html"><i class="fas fa-flask"></i>Эсийн биологийн лаборатори</a></li>
+        <li><a href="Молекул биологийн лаборатори.html"><i class="fas fa-dna"></i>Молекул биологийн лаборатори</a></li>
+        <li><a href="Биологийн химийн лаборатори.html"><i class="fas fa-biohazard"></i>Биологийн химийн лаборатори</a></li>
+        <li><a href="Эмгэг судлалын лаборатори.html"><i class="fas fa-stethoscope"></i>Эмгэг судлалын лаборатори</a></li>
+        <li><a href="Тархи судлалын лаборатори"><i class="fas fa-brain"></i>Тархи судлалын лаборатори</a></li>
+        <li><a href="Иммунобиологийн лаборатори.html"><i class="fas fa-syringe"></i>Иммунобиологийн лаборатори</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section id="research-links">
+      <h2>Биологийн химийн лаборатори</h2>
+      <p>Биологийн химийн лаборатори нь олон судалгааны өргөн хүрээнд ажиллаж байна. Дараах тоног төхөөрөмжийг танилцуулж байна:</p>
+
+      <ul>
+        <!-- Links with number sequence added -->
+        <li><a href="biohimi1.html">1. Ус цэвэршүүлэгч аппарат 1820, 5л нөөцлөгчтэй</a></li>
+        <li><a href="biohimi2.html">2. 2 ширэмтэй шарах шүүгээ</a></li>
+        <li><a href="biohimi3.html">3. Холигч</a></li>
+        <li><a href="biohimi4.html">4. Усан банн</a></li>
+        <li><a href="biohimi5.html">5. LC-MS-N2 генератор</a></li>
+        <li><a href="biohimi6.html">6. LC-MS-Массын насос</a></li>
+        <li><a href="device12.html">7. MS-Масс спектрометрийн систем</a></li>
+        <li><a href="device13.html">8. HPLC өндөр чадвхийн шингэний хроматограф</a></li>
+        <li><a href="device14.html">9. GENESYS™ 20 СПЕКТРОФОТОМЕТР</a></li>
+        <li><a href="device15.html">10. Хэт авиан соникатор</a></li>
+        <li><a href="device16.html">11. Хэт авиан соникатор</a></li>
+        <li><a href="device17.html">12. Вакуум ууршуулагч</a></li>
+        <li><a href="device18.html">13. Клевенжер аппарат</a></li>
+        <li><a href="device19.html">14. Халаагч</a></li>
+        <li><a href="device20.html">15. Татах шүүгээ</a></li>
+        <li><a href="device21.html">16. Хөргүүр</a></li>
+        <li><a href="device22.html">17. Хөлдөөгч</a></li>
+        <li><a href="device23.html">18. Агаар цэвэршүүлэгч</a></li>
+        <li><a href="device24.html">19. Тог баригч</a></li>
+        <li><a href="device25.html">20. Кондишн</a></li>
+        <li><a href="device26.html">21. Хэт ягаан туяаны спектрофотометр /96үүр/</a></li>
+        <li><a href="device27.html">22. Вакуум насос</a></li>
+        <li><a href="device28.html">23. Хөлдөөн хатаагч</a></li>
+        <li><a href="device29.html">24. Хөлдөөн хатаагчийн шахуурга</a></li>
+        <li><a href="device30.html">25. Нэрмэл усны аппарат</a></li>
+        <li><a href="device31.html">26. Электрон жин</a></li>
+        <li><a href="device32.html">27. Дээжийн концентратор</a></li>
+        <li><a href="device33.html">28. Вакуум шахуурга</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2024 Био-Анагаахын Хүрээлэн. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // JavaScript to toggle the hamburger menu visibility
+    function toggleMenu() {
+      const menu = document.querySelector('nav ul');
+      menu.classList.toggle('active');
+    }
+  </script>
+
+</body>
+</html>
