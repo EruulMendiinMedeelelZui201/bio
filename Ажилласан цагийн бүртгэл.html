@@ -1,1 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ажилласан Цагийн Бүртгэл</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+
+    h1, h2 {
+      text-align: center;
+      color: #0056b3;
+    }
+
+    .form-container {
+      width: 80%;
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-row {
+      margin-bottom: 15px;
+    }
+
+    .form-row label {
+      font-weight: bold;
+      margin-bottom: 5px;
+      display: block;
+    }
+
+    .form-row input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+
+    .form-row button {
+      background-color: #0056b3;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .form-row button:hover {
+      background-color: #003b7d;
+    }
+
+    .work-hours-list {
+      width: 80%;
+      max-width: 600px;
+      margin: 20px auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .work-hour-item {
+      margin-bottom: 20px;
+      padding: 15px;
+      background-color: #f2f2f2;
+      border-radius: 4px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    }
+
+    .work-hour-item strong {
+      display: block;
+      font-size: 18px;
+      color: #333;
+      margin-bottom: 8px;
+    }
+
+    .work-hour-item span {
+      display: block;
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 5px;
+    }
+
+    .passive-form {
+      padding: 15px;
+      background-color: #f9f9f9;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+
+    .passive-form label {
+      font-weight: bold;
+    }
+
+    .passive-form input {
+      background-color: #f9f9f9;
+      border: none;
+      padding: 8px;
+      margin-top: 5px;
+      font-size: 16px;
+      color: #333;
+    }
+
+    @media screen and (max-width: 768px) {
+      .form-container, .work-hours-list {
+        width: 95%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Ажилласан Цагийн Бүртгэл</h1>
+
+  <div class="form-container">
+    <h2>Ажилласан цаг бүртгэх</h2>
+
+    <!-- Work Hours Form -->
+    <div class="form-row">
+      <label for="workerName">Ажилтны нэр</label>
+      <input type="text" id="workerName" placeholder="Ажилтны нэр">
+    </div>
+
+    <div class="form-row">
+      <label for="workDate">Ажилласан огноо</label>
+      <input type="date" id="workDate">
+    </div>
+
+    <div class="form-row">
+      <label for="workStartTime">Ажил эхэлсэн цаг</label>
+      <input type="time" id="workStartTime">
+    </div>
+
+    <div class="form-row">
+      <label for="workEndTime">Ажил дууссан цаг</label>
+      <input type="time" id="workEndTime">
+    </div>
+
+    <div class="form-row">
+      <button type="button" id="saveButton">Бүртгэх</button>
+    </div>
+  </div>
+
+  <div class="work-hours-list" id="workHoursList">
+    <h2>Бүртгэсэн Ажилласан Цаг</h2>
+  </div>
+
+  <!-- Firebase SDK as ES Modules -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js";
+    import { getDatabase, ref, set, onChildAdded } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-database.js";
+
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCuqrFmLTPcAXnfY2Evl7V6TYoB4JuP49M",
+      authDomain: "jdweq-8402c.firebaseapp.com",
+      databaseURL: "https://jdweq-8402c-default-rtdb.firebaseio.com",
+      projectId: "jdweq-8402c",
+      storageBucket: "jdweq-8402c.firebasestorage.app",
+      messagingSenderId: "669116433438",
+      appId: "1:669116433438:web:be7ea5807bb575af3a45b1"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    // Save Work Hours Data
+    document.getElementById('saveButton').addEventListener('click', function() {
+      const workerName = document.getElementById('workerName').value;
+      const workDate = document.getElementById('workDate').value;
+      const workStartTime = document.getElementById('workStartTime').value;
+      const workEndTime = document.getElementById('workEndTime').value;
+
+      // Calculate the worked time
+      const startTime = new Date(`1970-01-01T${workStartTime}:00`);
+      const endTime = new Date(`1970-01-01T${workEndTime}:00`);
+      const workedTimeInMinutes = (endTime - startTime) / 60000;  // Difference in minutes
+
+      // Ensure all required fields are filled
+      if (!workerName || !workDate || !workStartTime || !workEndTime) {
+        alert("Бүх талбаруудыг бөглөнө үү.");
+        return;
+      }
+
+      const data = {
+        workerName,
+        workDate,
+        workStartTime,
+        workEndTime,
+        workedTimeInMinutes
+      };
+
+      const workHoursRef = ref(db, 'workHours/' + workDate + '-' + workerName);
+
+      set(workHoursRef, data)
+        .then(() => {
+          alert('Ажилласан цаг амжилттай бүртгэгдлээ!');
+          loadWorkHours(); // Reload the work hours list after saving
+        })
+        .catch((error) => {
+          alert('Алдаа гарлаа: ' + error.message);
+        });
+    });
+
+    // Load Work Hours Records from Firebase and create passive forms
+    function loadWorkHours() {
+      const workHoursList = document.getElementById('workHoursList');
+      workHoursList.innerHTML = '<h2>Бүртгэсэн Ажилласан Цаг</h2>';
+      const workHoursRef = ref(db, 'workHours');
+
+      onChildAdded(workHoursRef, (snapshot) => {
+        const workHour = snapshot.val();
+        const workHourElement = document.createElement('div');
+        workHourElement.classList.add('passive-form');
+
+        workHourElement.innerHTML = `
+          <label>Ажилтны нэр:</label>
+          <input type="text" value="${workHour.workerName}" disabled><br>
+
+          <label>Огноо:</label>
+          <input type="text" value="${workHour.workDate}" disabled><br>
+
+          <label>Ажил эхэлсэн цаг:</label>
+          <input type="text" value="${workHour.workStartTime}" disabled><br>
+
+          <label>Ажил дууссан цаг:</label>
+          <input type="text" value="${workHour.workEndTime}" disabled><br>
+
+          <label>Ажилласан цаг:</label>
+          <input type="text" value="${workHour.workedTimeInMinutes} минут" disabled><br>
+        `;
+        workHoursList.appendChild(workHourElement);
+      });
+    }
+
+    // Load work hours list when the page is loaded
+    window.onload = function() {
+      loadWorkHours();
+    };
+  </script>
+
+</body>
+</html>
 
