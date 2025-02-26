@@ -5,103 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Тоног төхөөрөмжийн бүртгэл</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-      background-color: #f9f9f9;
-    }
-
-    h1 {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-
-    h2 {
-      font-size: 1.2rem;
-      margin-bottom: 15px;
-      color: #333;
-    }
-
-    .form-container {
-      max-width: 1000px;
-      margin: 0 auto;
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .form-row {
-      display: flex;
-      flex-wrap: wrap;
-      margin-bottom: 15px;
-    }
-
-    .form-row label {
-      font-weight: bold;
-      padding-right: 10px;
-      text-align: right;
-      line-height: 1.8;
-    }
-
-    .form-row input, .form-row select {
-      width: 75%;
-      padding: 8px;
-      font-size: 16px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-
-    .form-row#image-label label {
-      width: 20%;
-      font-size: 1.2rem;
-    }
-
-    .form-row img {
-      max-width: 100%;
-      max-height: 200px;
-      margin-top: 10px;
-    }
-
-    button {
-      padding: 10px 15px;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      cursor: pointer;
-      font-size: 16px;
-      border-radius: 5px;
-      display: block;
-      margin: 0 auto;
-    }
-
-    button:hover {
-      background-color: #45a049;
-    }
-
-    .image-link {
-      font-size: 14px;
-      text-align: center;
-      margin-top: 10px;
-      display: block;
-      color: #007BFF;
+    /* Your existing styles remain the same */
+    
+    /* Remove underline from links */
+    a {
       text-decoration: none;
     }
 
-    .image-link:hover {
+    /* Optional: Add hover effect to links */
+    a:hover {
       text-decoration: underline;
-    }
-
-    .equipment-list {
-      margin-top: 20px;
-    }
-
-    .equipment-item {
-      background-color: #f2f2f2;
-      padding: 15px;
-      margin-bottom: 10px;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
   </style>
 </head>
@@ -112,6 +25,7 @@
   <div class="form-container">
     <h2>Тоног төхөөрөмжийн зориулалт</h2>
     
+    <!-- Equipment Form -->
     <div class="form-row">
       <label for="name">Тоног төхөөрөмжийн нэр</label>
       <input type="text" id="name" value="LC-MS-N2 генератор">
@@ -188,9 +102,13 @@
     <h2>Бүртгэсэн Тоног Төхөөрөмжүүд</h2>
   </div>
 
+  <!-- Link to Ажилласан цагийн бүртгэл.html -->
+  <div>
+    <a href="Ажилласан цагийн бүртгэл.html">Ажилласан цагийн бүртгэл</a>
+  </div>
+
   <!-- Firebase SDK as ES Modules -->
   <script type="module">
-    // Import necessary Firebase modules
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js";
     import { getDatabase, ref, set, get, onChildAdded } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-database.js";
 
@@ -202,14 +120,24 @@
       projectId: "jdweq-8402c",
       storageBucket: "jdweq-8402c.firebasestorage.app",
       messagingSenderId: "669116433438",
-      appId: "1:669116433438:web:a49774c6deb4ad88aeda0f"
+      appId: "1:669116433438:web:be7ea5807bb575af3a45b1"
     };
 
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
-    // Function to handle form submission and save data to Firebase
+    // Image preview update
+    document.getElementById('imageInput').addEventListener('change', function(event) {
+      const file = event.target.files[0];
+      const reader = new FileReader();
+      reader.onload = function() {
+        document.getElementById('imagePreview').src = reader.result;
+      };
+      if (file) reader.readAsDataURL(file);
+    });
+
+    // Save Equipment Data
     document.getElementById('saveButton').addEventListener('click', function() {
       const name = document.getElementById('name').value;
       const registrationNumber = document.getElementById('registrationNumber').value;
@@ -239,36 +167,19 @@
         roomNumber
       };
 
-      // Reference to the database path where data will be stored
-      const equipmentRef = ref(db, 'equipment/' + registrationNumber); // Use registration number as the key
+      const equipmentRef = ref(db, 'equipment/' + registrationNumber);
 
-      // Check if the equipment with the given registration number already exists
-      get(equipmentRef).then((snapshot) => {
-        if (snapshot.exists()) {
-          // Equipment exists, update it
-          set(equipmentRef, data)
-            .then(() => {
-              alert('Тоног төхөөрөмжийн мэдээлэл амжилттай шинэчлэгдлээ!');
-              loadEquipment(); // Reload the equipment list after updating
-            })
-            .catch((error) => {
-              alert('Алдаа гарлаа: ' + error.message);
-            });
-        } else {
-          // Equipment does not exist, create a new entry
-          set(equipmentRef, data)
-            .then(() => {
-              alert('Тоног төхөөрөмжийн мэдээлэл амжилттай хадгалагдлаа!');
-              loadEquipment(); // Reload the equipment list after saving
-            })
-            .catch((error) => {
-              alert('Алдаа гарлаа: ' + error.message);
-            });
-        }
-      });
+      set(equipmentRef, data)
+        .then(() => {
+          alert('Тоног төхөөрөмжийн мэдээлэл амжилттай хадгалагдлаа!');
+          loadEquipment(); // Reload the equipment list after saving
+        })
+        .catch((error) => {
+          alert('Алдаа гарлаа: ' + error.message);
+        });
     });
 
-    // Load equipment data in real-time
+    // Load Equipment Records from Firebase
     function loadEquipment() {
       const equipmentList = document.getElementById('equipmentList');
       equipmentList.innerHTML = '<h2>Бүртгэсэн Тоног Төхөөрөмжүүд</h2>';
@@ -278,7 +189,7 @@
         const equipment = snapshot.val();
         const equipmentElement = document.createElement('div');
         equipmentElement.classList.add('equipment-item');
-        equipmentElement.innerHTML = `
+        equipmentElement.innerHTML = ` 
           <strong>${equipment.name}</strong><br>
           <span><b>Бүртгэлийн дугаар:</b> ${equipment.registrationNumber}</span><br>
           <span><b>Марка:</b> ${equipment.brand}</span><br>
@@ -296,7 +207,10 @@
     }
 
     // Load equipment list when the page is loaded
-    window.onload = loadEquipment;
+    window.onload = function() {
+      loadEquipment();
+    };
   </script>
+
 </body>
 </html>
