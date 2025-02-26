@@ -192,7 +192,7 @@
   <script type="module">
     // Import necessary Firebase modules
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js";
-    import { getDatabase, ref, set, onChildAdded } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-database.js";
+    import { getDatabase, ref, set, get, onChildAdded } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-database.js";
 
     // Firebase configuration
     const firebaseConfig = {
@@ -240,17 +240,32 @@
       };
 
       // Reference to the database path where data will be stored
-      const dataRef = ref(db, 'equipment/' + Date.now());
+      const equipmentRef = ref(db, 'equipment/' + registrationNumber); // Use registration number as the key
 
-      // Save the data to Firebase
-      set(dataRef, data)
-        .then(() => {
-          alert('Тоног төхөөрөмжийн мэдээлэл амжилттай хадгалагдлаа!');
-          loadEquipment(); // Reload the equipment list after saving
-        })
-        .catch((error) => {
-          alert('Алдаа гарлаа: ' + error.message);
-        });
+      // Check if the equipment with the given registration number already exists
+      get(equipmentRef).then((snapshot) => {
+        if (snapshot.exists()) {
+          // Equipment exists, update it
+          set(equipmentRef, data)
+            .then(() => {
+              alert('Тоног төхөөрөмжийн мэдээлэл амжилттай шинэчлэгдлээ!');
+              loadEquipment(); // Reload the equipment list after updating
+            })
+            .catch((error) => {
+              alert('Алдаа гарлаа: ' + error.message);
+            });
+        } else {
+          // Equipment does not exist, create a new entry
+          set(equipmentRef, data)
+            .then(() => {
+              alert('Тоног төхөөрөмжийн мэдээлэл амжилттай хадгалагдлаа!');
+              loadEquipment(); // Reload the equipment list after saving
+            })
+            .catch((error) => {
+              alert('Алдаа гарлаа: ' + error.message);
+            });
+        }
+      });
     });
 
     // Load equipment data in real-time
@@ -285,4 +300,3 @@
   </script>
 </body>
 </html>
-
