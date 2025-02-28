@@ -108,10 +108,6 @@
                     <input type="email" value="" id="email" required>
                     <span>E-mail</span>
                 </div>
-                <div class="inputbox">
-                    <input type="text" value="" id="phone" required>
-                    <span>Phone Number</span>
-                </div>
                 <input type="submit" value="Submit" class="sub" id="submit">
             </form>
         </div>
@@ -136,10 +132,7 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // Phone number regex for Mongolian numbers (e.g., 99112233, 88001122)
-        const phoneRegex = /^[0-9]{8}$/;
-
-        // Email validation pattern (optional: extra security)
+        // Email validation pattern
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
         // Handle form submission
@@ -149,7 +142,6 @@
             // Get input values
             const username = document.getElementById("username").value;
             const email = document.getElementById("email").value;
-            const phone = document.getElementById("phone").value;
 
             // Email validation
             if (!emailRegex.test(email)) {
@@ -157,17 +149,10 @@
                 return;
             }
 
-            // Phone number validation (only Mongolian format without country code)
-            if (!phoneRegex.test(phone)) {
-                alert("Please enter a valid 8-digit Mongolian phone number (without +976 or 976).");
-                return;
-            }
-
             // Save data to Firebase
             set(ref(db, 'user/' + username), {
                 username: username,
-                email: email,
-                phoneNumber: phone
+                email: email
             }).then(() => {
                 alert("Login Successful!");
                 window.location.href = "dashboard.html";  // Redirect to dashboard page
