@@ -152,7 +152,7 @@
 
     <div class="form-row">
       <label for="registrationNumber">Бүртгэлийн дугаар</label>
-      <input type="text" id="registrationNumber" value="123456789">
+      <input type="text" id="registrationNumber" value="БХ1">
     </div>
 
     <div class="form-row" id="image-label">
@@ -286,25 +286,25 @@
         roomNumber
       };
 
-      const equipmentRef = ref(db, 'equipment/' + registrationNumber);
+      const biohimiRef = ref(db, 'biohimi/' + registrationNumber);
 
-      set(equipmentRef, data)
+      set(biohimiRef, data)
         .then(() => {
           alert('Тоног төхөөрөмжийн мэдээлэл амжилттай хадгалагдлаа!');
-          loadEquipment(); // Reload the equipment list after saving
+          loadBiohimi(); // Reload the biohimi list after saving
         })
         .catch((error) => {
           alert('Алдаа гарлаа: ' + error.message);
         });
     });
 
-    // Load Equipment Records from Firebase
-    function loadEquipment() {
+    // Load Biohimi Records from Firebase
+    function loadBiohimi() {
       const equipmentList = document.getElementById('equipmentList');
       equipmentList.innerHTML = '<h2>Бүртгэсэн Тоног Төхөөрөмжүүд</h2>';
-      const equipmentRef = ref(db, 'equipment');
+      const biohimiRef = ref(db, 'biohimi');
 
-      onChildAdded(equipmentRef, (snapshot) => {
+      onChildAdded(biohimiRef, (snapshot) => {
         const equipment = snapshot.val();
         const equipmentElement = document.createElement('div');
         equipmentElement.classList.add('equipment-item');
@@ -325,9 +325,9 @@
       });
     }
 
-    // Load equipment list when the page is loaded
+    // Load biohimi list when the page is loaded
     window.onload = function() {
-      loadEquipment();
+      loadBiohimi();
     };
   </script>
 
