@@ -136,8 +136,8 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // Phone number regex for Mongolian numbers (e.g., +976 99112233)
-        const phoneRegex = /^(?:\+976|976)?[0-9]{8}$/;
+        // Phone number regex for Mongolian numbers (e.g., 99112233, 88001122)
+        const phoneRegex = /^[0-9]{8}$/;
 
         // Email validation pattern (optional: extra security)
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
@@ -157,9 +157,9 @@
                 return;
             }
 
-            // Phone number validation (only Mongolian format)
+            // Phone number validation (only Mongolian format without country code)
             if (!phoneRegex.test(phone)) {
-                alert("Please enter a valid Mongolian phone number.");
+                alert("Please enter a valid 8-digit Mongolian phone number (without +976 or 976).");
                 return;
             }
 
