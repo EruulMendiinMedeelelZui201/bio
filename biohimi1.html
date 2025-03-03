@@ -152,7 +152,8 @@
 
     <div class="form-row">
       <label for="registrationNumber">Бүртгэлийн дугаар</label>
-      <input type="text" id="registrationNumber" value="БХ1">
+      <!-- Add the readonly attribute here -->
+      <input type="text" id="registrationNumber" value="BX1" readonly>
     </div>
 
     <div class="form-row" id="image-label">
@@ -286,16 +287,21 @@
         roomNumber
       };
 
-      const biohimiRef = ref(db, 'biohimi/' + registrationNumber);
+      // Only save if registration number is BX1
+      if (registrationNumber === 'BX1') {
+        const biohimiRef = ref(db, 'biohimi/' + registrationNumber);
 
-      set(biohimiRef, data)
-        .then(() => {
-          alert('Тоног төхөөрөмжийн мэдээлэл амжилттай хадгалагдлаа!');
-          loadBiohimi(); // Reload the biohimi list after saving
-        })
-        .catch((error) => {
-          alert('Алдаа гарлаа: ' + error.message);
-        });
+        set(biohimiRef, data)
+          .then(() => {
+            alert('Тоног төхөөрөмжийн мэдээлэл амжилттай хадгалагдлаа!');
+            loadBiohimi(); // Reload the biohimi list after saving
+          })
+          .catch((error) => {
+            alert('Алдаа гарлаа: ' + error.message);
+          });
+      } else {
+        alert('Зөвхөн BX1 бүртгэлийн дугаартай тоног төхөөрөмжийг хадгалж болно.');
+      }
     });
 
     // Load Biohimi Records from Firebase
@@ -306,22 +312,26 @@
 
       onChildAdded(biohimiRef, (snapshot) => {
         const equipment = snapshot.val();
-        const equipmentElement = document.createElement('div');
-        equipmentElement.classList.add('equipment-item');
-        equipmentElement.innerHTML = ` 
-          <strong>${equipment.name}</strong><br>
-          <span><b>Бүртгэлийн дугаар:</b> ${equipment.registrationNumber}</span><br>
-          <span><b>Марка:</b> ${equipment.brand}</span><br>
-          <span><b>Сериал дугаар:</b> ${equipment.serialNumber}</span><br>
-          <span><b>Үйлдвэрлэсэн орон:</b> ${equipment.country}</span><br>
-          <span><b>Үйлдвэрлэсэн он:</b> ${equipment.year}</span><br>
-          <span><b>Ашиглалтад орсон он:</b> ${equipment.yearOfUse}</span><br>
-          <span><b>Техникийн хүчин чадал:</b> ${equipment.capacity}</span><br>
-          <span><b>Техникийн шаардлага:</b> ${equipment.technicalRequirements}</span><br>
-          <span><b>Цахилгаан чадал:</b> ${equipment.electricity}W</span><br>
-          <span><b>Өрөөний дугаар:</b> ${equipment.roomNumber}</span><br>
-        `;
-        equipmentList.appendChild(equipmentElement);
+
+        // Only display equipment with registrationNumber 'BX1'
+        if (equipment.registrationNumber === 'BX1') {
+          const equipmentElement = document.createElement('div');
+          equipmentElement.classList.add('equipment-item');
+          equipmentElement.innerHTML = ` 
+            <strong>${equipment.name}</strong><br>
+            <span><b>Бүртгэлийн дугаар:</b> ${equipment.registrationNumber}</span><br>
+            <span><b>Марка:</b> ${equipment.brand}</span><br>
+            <span><b>Сериал дугаар:</b> ${equipment.serialNumber}</span><br>
+            <span><b>Үйлдвэрлэсэн орон:</b> ${equipment.country}</span><br>
+            <span><b>Үйлдвэрлэсэн он:</b> ${equipment.year}</span><br>
+            <span><b>Ашиглалтад орсон он:</b> ${equipment.yearOfUse}</span><br>
+            <span><b>Техникийн хүчин чадал:</b> ${equipment.capacity}</span><br>
+            <span><b>Техникийн шаардлага:</b> ${equipment.technicalRequirements}</span><br>
+            <span><b>Цахилгаан чадал:</b> ${equipment.electricity}W</span><br>
+            <span><b>Өрөөний дугаар:</b> ${equipment.roomNumber}</span><br>
+          `;
+          equipmentList.appendChild(equipmentElement);
+        }
       });
     }
 
