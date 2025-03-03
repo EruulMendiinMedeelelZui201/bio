@@ -97,10 +97,26 @@
     /* Additional CSS for Links */
     a {
       text-decoration: none;
+      color: #ffffff;
+      background-color: #28a745;
+      padding: 15px 25px;
+      font-size: 18px;
+      border-radius: 8px;
+      display: inline-block;
+      text-align: center;
+      margin-top: 20px;
+      width: 100%;
+      max-width: 300px;
+      transition: background-color 0.3s ease, transform 0.3s ease;
     }
 
     a:hover {
-      text-decoration: underline;
+      background-color: #218838;
+      transform: scale(1.05);
+    }
+
+    a:active {
+      transform: scale(0.98);
     }
 
     /* For Image Preview and Link */
@@ -115,24 +131,15 @@
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     }
 
-    /* Optional: To style the image link */
-    .image-link {
-      display: block;
-      text-align: center;
-      margin-top: 10px;
-      color: #0056b3;
-      font-size: 16px;
-      font-weight: bold;
-    }
-
-    .image-link:hover {
-      text-decoration: underline;
-    }
-
     /* Responsive Design */
     @media screen and (max-width: 768px) {
       .form-container, .equipment-list {
         width: 95%;
+      }
+
+      a {
+        font-size: 16px;
+        padding: 12px 20px;
       }
     }
   </style>
@@ -152,7 +159,6 @@
 
     <div class="form-row">
       <label for="registrationNumber">Бүртгэлийн дугаар</label>
-      <!-- Add the readonly attribute here -->
       <input type="text" id="registrationNumber" value="BX1" readonly>
     </div>
 
@@ -300,7 +306,7 @@
             alert('Алдаа гарлаа: ' + error.message);
           });
       } else {
-        alert('Зөвхөн BX1 бүртгэлийн дугаартай тоног төхөөрөмжийг хадгалж болно.');
+        alert('Зөвхөн BX2 бүртгэлийн дугаартай тоног төхөөрөмжийг хадгалж болно.');
       }
     });
 
